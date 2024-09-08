@@ -1,0 +1,22 @@
+{
+  "name": "slartibax/testtask-sitemap-php-pkg",
+  "description": "Test task for Pyrobyte",
+  "type": "library",
+  "license": "AGPL-3.0-only",
+  "autoload": {
+    "psr-4": {
+      "Slartibax\\TesttaskSitemapPhpPkg\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Vladislav Polovnikov"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^8.0"
+  },
+  "config": {
+  }
+}
