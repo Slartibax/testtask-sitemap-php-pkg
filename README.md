@@ -1,5 +1,10 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/slartibax/testtask-sitemap-php-pkg.svg?style=flat-square)](https://packagist.org/packages/slartibax/testtask-sitemap-php-pkg)
+
+Тестовое задание для Пиробайта.
+
+- Библиотека поддерживает только тэги url из массива urlset
 
 Test script 
 
