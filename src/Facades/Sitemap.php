@@ -3,6 +3,8 @@
 namespace Slartibax\TesttaskSitemapPhpPkg\Facades;
 
 use Exception;
+use Slartibax\TesttaskSitemapPhpPkg\Exceptions\ConfigurationException;
+use Slartibax\TesttaskSitemapPhpPkg\Exceptions\FilePreparationException;
 use Slartibax\TesttaskSitemapPhpPkg\Generators\CSVGenerator;
 use Slartibax\TesttaskSitemapPhpPkg\Generators\JSONGenerator;
 use Slartibax\TesttaskSitemapPhpPkg\Generators\XMLGenerator;
@@ -57,17 +59,21 @@ class Sitemap
     }
 
 
+    /**
+     * @throws FilePreparationException
+     * @throws ConfigurationException
+     */
     public function start(): self
     {
         if (is_null($this->filePath)) {
-            throw new Exception('File path must be set before start');
+            throw new ConfigurationException('File path must be set before start');
         }
 
         $this->prepareLocation();
 
         if (is_null($this->generator)) {
             if (is_null($this->chosenGeneratorClassname)) {
-                throw new Exception('Generator must be set or chosen before start');
+                throw new ConfigurationException('Generator must be set or chosen before start');
             } else {
                 $this->generator = new $this->chosenGeneratorClassname(fopen($this->filePath, 'w+'));
             }
@@ -89,19 +95,22 @@ class Sitemap
         return $this;
     }
 
+    /**
+     * @throws FilePreparationException
+     */
     private function prepareLocation(): void
     {
         $directory = dirname($this->filePath);
 
         if (!file_exists($directory)) {
             mkdir($directory, 0755, true)
-                ?: throw new Exception('Can\'t create directory structure');
+                ?: throw new FilePreparationException('Can\'t create directory structure');
         }
 
         $status = file_put_contents($this->filePath, '');
 
         if ($status === false) {
-            throw new Exception('Can\'t create file');
+            throw new FilePreparationException('Can\'t create file in existing directory structure');
         }
     }
 

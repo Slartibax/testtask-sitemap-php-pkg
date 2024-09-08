@@ -4,6 +4,7 @@ namespace Slartibax\TesttaskSitemapPhpPkg\Generators;
 
 use Exception;
 use InvalidArgumentException;
+use Slartibax\TesttaskSitemapPhpPkg\Exceptions\CSVGeneratorException;
 use Slartibax\TesttaskSitemapPhpPkg\SitemapGenerator;
 use Slartibax\TesttaskSitemapPhpPkg\SitemapTag;
 use Slartibax\TesttaskSitemapPhpPkg\Tags\Url;
@@ -29,7 +30,7 @@ class CSVGenerator implements SitemapGenerator
     public function initialize(): void
     {
         fwrite($this->fileHandle, implode(";", array_keys((new Url([]))->getFields())) . PHP_EOL)
-            ?: throw new Exception('Can\'t write initialize data to file');
+            ?: throw new CSVGeneratorException('Can\'t write initialize data to file. Can\'t write header to file');
     }
 
     /**
@@ -45,7 +46,7 @@ class CSVGenerator implements SitemapGenerator
         $text = trim($text, ';') . PHP_EOL;
 
         fwrite($this->fileHandle, $text)
-            ?: throw new Exception('Can\'t write element to file');
+            ?: throw new CSVGeneratorException('Can\'t write generated element text to file');
     }
 
     /**
@@ -54,6 +55,6 @@ class CSVGenerator implements SitemapGenerator
     public function finalize(): void
     {
         fclose($this->fileHandle)
-            ?: throw new Exception('Can\'t close file stream');
+            ?: throw new CSVGeneratorException('Can\'t close file stream');
     }
 }

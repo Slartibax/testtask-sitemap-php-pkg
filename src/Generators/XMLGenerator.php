@@ -4,6 +4,7 @@ namespace Slartibax\TesttaskSitemapPhpPkg\Generators;
 
 use Exception;
 use InvalidArgumentException;
+use Slartibax\TesttaskSitemapPhpPkg\Exceptions\XMLGeneratorException;
 use Slartibax\TesttaskSitemapPhpPkg\SitemapGenerator;
 use Slartibax\TesttaskSitemapPhpPkg\SitemapTag;
 
@@ -31,7 +32,7 @@ class XMLGenerator implements SitemapGenerator
     public function initialize(): void
     {
         fwrite($this->fileHandle, self::DEFAULT_HEADER)
-            ?: throw new Exception('Can\'t write initialize data to file');
+            ?: throw new XMLGeneratorException('Can\'t write initialize data to file. Can\'t write header to file');
     }
 
     /**
@@ -47,7 +48,7 @@ class XMLGenerator implements SitemapGenerator
         $text .= "\t</$tagKey>" . PHP_EOL;
 
         fwrite($this->fileHandle, $text)
-            ?: throw new Exception('Can\'t write element to file');
+            ?: throw new XMLGeneratorException('Can\'t write generated element text to file');
     }
 
     /**
@@ -56,9 +57,9 @@ class XMLGenerator implements SitemapGenerator
     public function finalize(): void
     {
         fwrite($this->fileHandle, self::DEFAULT_FOOTER)
-            ?: throw new Exception('Can\'t finalize data in file');
+            ?: throw new XMLGeneratorException('Can\'t finalize data in file. Can\'t write footer to file');
 
         fclose($this->fileHandle)
-            ?: throw new Exception('Can\'t close file stream');
+            ?: throw new XMLGeneratorException('Can\'t close file stream');
     }
 }
