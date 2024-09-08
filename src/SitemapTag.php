@@ -2,6 +2,8 @@
 
 namespace Slartibax\TesttaskSitemapPhpPkg;
 
+use ReflectionClass;
+
 abstract class SitemapTag
 {
     public function __construct(?array $data)
@@ -18,6 +20,6 @@ abstract class SitemapTag
 
     public function getKey(): string
     {
-        return strtolower(class_basename($this));
+        return strtolower((new ReflectionClass($this))->getShortName());
     }
 }
